@@ -3,6 +3,13 @@ import urllib2
 import os
 import re
 import urllib
+# Copyright
+#Function verify files exist
+def isExist(name_file):
+    if os.path.isfile(name_file):
+        return True
+    else:
+        return False
 def download_file(url, dirname):
     data = urllib2.urlopen(url)
     with open(dirname + "/" + url.split("/")[-1], "wb") as out:
@@ -26,6 +33,7 @@ def grub(link,dest,directory):
     URL = urllib2.urlopen(link)
     args=dest.parse_args()
     print("Created directory " + directory)
+
     try:
         # TODO Write board downloader
 
@@ -39,6 +47,10 @@ def grub(link,dest,directory):
             if i % 2 == 0:
                 continue
             url = "https://2ch.hk" + m
+            #Exist files verify
+            if isExist(directory + "/" + url.split("/")[-1]):
+                continue
+
             print("Downloading " + m.split("/")[4] + " (" + str(i / 2 + 1) + " of " + str(len(threads_array) / 2) + ")")
             #urllib.urlretrieve('https://2ch.hk/' + m)
             download_file(url, directory)
