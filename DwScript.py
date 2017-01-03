@@ -28,10 +28,11 @@ def get_pattern():
         pattern = "(?:webm|png|jpg|gif)"
     return pattern
 def grub(link,dest,directory):
-    pattern = get_pattern()
 
     URL = urllib2.urlopen(link)
+    global args
     args=dest.parse_args()
+    pattern = get_pattern()
     print("Created directory " + directory)
 
     try:
