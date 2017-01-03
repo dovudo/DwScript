@@ -3,30 +3,30 @@ import urllib2
 import os
 import re
 import urllib
-# Copyright
 def download_file(url, dirname):
     data = urllib2.urlopen(url)
     with open(dirname + "/" + url.split("/")[-1], "wb") as out:
         out.write(data.read())
-def grub(link,dest,directory):
+def get_pattern():
     pattern = "(?:"
+    if args.webm_switch:
+        pattern += "webm|"
+    if args.picture_switch:
+        pattern += "png|jpg|"
+    if args.gif_switch:
+        pattern += "gif|"
+    if pattern != "(?:":
+        pattern = pattern[:-1] + ")"
+    else:
+        pattern = "(?:webm|png|jpg|gif)"
+    return pattern
+def grub(link,dest,directory):
+    pattern = get_pattern()
 
     URL = urllib2.urlopen(link)
     args=dest.parse_args()
     print("Created directory " + directory)
     try:
-        #Filtering args
-        if args.webm_switch:
-            pattern += "webm|"
-        if args.picture_switch:
-            pattern += "png|jpg|"
-        if args.gif_switch:
-            pattern += "gif|"
-        if pattern != "(?:":
-            pattern = pattern[:-1] + ")"
-        else:
-            pattern = "(?:webm|png|jpg|gif)"
-
         # TODO Write board downloader
 
         #create directory
