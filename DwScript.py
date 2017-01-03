@@ -1,7 +1,7 @@
 import argparse
-import urllib2
 import os
 import re
+import urllib2
 # Copyright
 #Function verify files exist
 def isExist(name_file):
