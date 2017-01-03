@@ -3,46 +3,46 @@ import urllib2
 import os
 import re
 import urllib
-def grub(link,dest,dir):
-    webm_filter = 'href="([^"]*(?:webm))'
-    picture_filter = 'href="([^"]*(?:jpg|jpeg|png)'
-    gif_filter = 'href="([^"]*(?:gif))'
-    all_filter = 'href="([^"]*(?:jpg|gif|png|webm|jpeg)'
-     
+def grub(link,dest,directory):
+    pattern = "(?:"
+
     URL = urllib2.urlopen(link)
     args=dest.parse_args()
-    print(dir) 
+    print(directory)
     try:
-        #Filtering args 
-        if args.all_switch: 
-            print('All download')
-            filter = all_filter
-        elif args.webm_switch:
-            print('Only webm will downloaded')
-            filter = webm_filter
-        elif args.picture_switch:
-            print('Only pictures will downloaded')
-            filter = picture_filter
-        elif args.gif_switch:
-            print('Only gifs will downloaded')
-            filter = gif_filter
-        
-        #Write board downloader 
+        #Filtering args
+        if args.webm_switch:
+            pattern += "webm|"
+        if args.picture_switch:
+            pattern += "png|jpg|"
+        if args.gif_switch:
+            pattern += "gif|"
+        if pattern != "(?:":
+            pattern = pattern[:-1] + ")"
+        else:
+            pattern = "(?:webm|png|jpg|gif)"
+
+        # TODO Write board downloader
 
         #create directory
-        if not os.path.isdir(dir): 
-            os.makedirs(dir)
-        
+        if not os.path.isdir(directory):
+            os.makedirs(directory)
+
         #Main download script
-        for m in re.findall(webm_filter, URL.read().decode('utf-8')):
+        for i, m in enumerate(re.findall(r'href="([^"]*' + pattern + ")", URL.read().decode('utf-8'))):
+            if i % 2 == 0:
+                continue
             print('Downloading '+ m)
             #urllib.urlretrieve('https://2ch.hk/' + m)
+            data = urllib2.urlopen("https://2ch.hk" + m)
+            with open(directory + "/" + m.split("/")[4], "wb") as out:
+                out.write(data.read())
 
     except urllib2.HTTPError:
         print("Thread not found")
         exit()
-   
-  
+
+
 if __name__ == '__main__':
     ar = argparse.ArgumentParser("python abuscript.py https://2ch.hk/b/res/123405664.html",epilog="Easy-to-Use download webm's, pictures or gifs \n Files will downloaded in dir with abuscript")
     ar.add_argument('--version',action='version', version='version 1.0')
@@ -56,7 +56,8 @@ if __name__ == '__main__':
     result = ar.parse_args()
     options = vars(result)
     link = options['link'] #parse link
-    dir_name = re.split(r'[https://ch.hk/b/res/.html]+',link)
-    dir_name =dir_name[1]
+    #dir_name = re.split(r'[https://2ch.hk/b/res/.html]+',link)
+    #dir_name =dir_name[1]
+    dir_name = link.split("/")[-1][:-5]
    #dir_name = link.strip('https://2ch.hk/b/res/.html')
     grub(link,ar,dir_name)
