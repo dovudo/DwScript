@@ -3,6 +3,7 @@ import urllib2
 import os
 import re
 import urllib
+# Copyright
 def download_file(url, dirname):
     data = urllib2.urlopen(url)
     with open(dirname + "/" + url.split("/")[-1], "wb") as out:
