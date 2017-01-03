@@ -3,6 +3,10 @@ import urllib2
 import os
 import re
 import urllib
+def download_file(url, dirname):
+    data = urllib2.urlopen(url)
+    with open(dirname + "/" + url.split("/")[-1], "wb") as out:
+        out.write(data.read())
 def grub(link,dest,directory):
     pattern = "(?:"
 
@@ -33,11 +37,10 @@ def grub(link,dest,directory):
         for i, m in enumerate(threads_array):
             if i % 2 == 0:
                 continue
+            url = "https://2ch.hk" + m
             print("Downloading " + m.split("/")[4] + " (" + str(i / 2 + 1) + " of " + str(len(threads_array) / 2) + ")")
             #urllib.urlretrieve('https://2ch.hk/' + m)
-            data = urllib2.urlopen("https://2ch.hk" + m)
-            with open(directory + "/" + m.split("/")[4], "wb") as out:
-                out.write(data.read())
+            download_file(url, directory)
 
     except urllib2.HTTPError:
         print("Thread not found")
