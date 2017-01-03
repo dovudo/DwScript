@@ -1,8 +1,9 @@
 import argparse
-import urllib2
 import os
 import re
-import urllib
+import urllib2
+
+
 # Copyright
 #Function verify files exist
 def isExist(name_file):
@@ -53,7 +54,7 @@ def grub(link,dest,directory):
                 continue
 
             print("Downloading " + m.split("/")[4] + " (" + str(i / 2 + 1) + " of " + str(len(threads_array) / 2) + ")")
-            #urllib.urlretrieve('https://2ch.hk/' + m)
+            #Downloading file
             download_file(url, directory)
 
     except urllib2.HTTPError:
@@ -80,8 +81,5 @@ if __name__ == '__main__':
     result = ar.parse_args()
     options = vars(result)
     link = options['link'] #parse link
-    #dir_name = re.split(r'[https://2ch.hk/b/res/.html]+',link)
-    #dir_name =dir_name[1]
     dir_name = link.split("/")[-1][:-5]
-   #dir_name = link.strip('https://2ch.hk/b/res/.html')
     grub(link,ar,dir_name)
