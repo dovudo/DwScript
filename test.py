@@ -8,7 +8,7 @@ def grub(link,dest,directory):
 
     URL = urllib2.urlopen(link)
     args=dest.parse_args()
-    print(directory)
+    print("Thread " + directory)
     try:
         #Filtering args
         if args.webm_switch:
@@ -29,10 +29,11 @@ def grub(link,dest,directory):
             os.makedirs(directory)
 
         #Main download script
-        for i, m in enumerate(re.findall(r'href="([^"]*' + pattern + ")", URL.read().decode('utf-8'))):
+        threads_array = re.findall(r'href="([^"]*' + pattern + ")", URL.read().decode('utf-8'))
+        for i, m in enumerate(threads_array):
             if i % 2 == 0:
                 continue
-            print('Downloading '+ m)
+            print("Downloading " + m.split("/")[4] + " (" + str(i / 2 + 1) + " of " + str(len(threads_array) / 2) + ")")
             #urllib.urlretrieve('https://2ch.hk/' + m)
             data = urllib2.urlopen("https://2ch.hk" + m)
             with open(directory + "/" + m.split("/")[4], "wb") as out:
