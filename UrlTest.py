@@ -5,8 +5,8 @@ if __name__ == '__main__':
     try:
         URL = urllib2.urlopen(url_link)
        #soup = re.findall(r'.jpg',URL.read().decode("utf-8"))
-        for m in re.findall('([-\w]+\.?(?:webm))', URL.read().decode('utf-8')):
-            print(m) 
+        for m in re.findall(r'href="([^"]*(?:webm))', URL.read().decode('utf-8')):
+            print('2ch.hk/' + m) 
         #print(soup)
     except urllib2.HTTPError:
         print("Thread not found")
