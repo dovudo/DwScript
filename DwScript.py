@@ -2,7 +2,6 @@ import argparse
 import urllib2
 import os
 import re
-import urllib
 # Copyright
 #Function verify files exist
 def isExist(name_file):
@@ -27,46 +26,29 @@ def get_pattern():
     else:
         pattern = "(?:webm|png|jpg|gif)"
     return pattern
-def grub(link,dest,directory):
-
-    URL = urllib2.urlopen(link)
-    global args
-    args=dest.parse_args()
+def download_thread(url):
+    folder = url.split("/")[-1][:-5]
     pattern = get_pattern()
-    print("Created directory " + directory)
-
-    try:
-        # TODO Write board downloader
-
-        #create directory
-        if not os.path.isdir(directory):
-            os.makedirs(directory)
-
-        #Main download script
-        threads_array = re.findall(r'href="([^"]*' + pattern + ")", URL.read().decode('utf-8'))
-        for i, m in enumerate(threads_array):
-            if i % 2 == 0:
-                continue
-            url = "https://2ch.hk" + m
-            #Exist files verify
-            if isExist(directory + "/" + url.split("/")[-1]):
-                continue
-
-            print("Downloading " + m.split("/")[4] + " (" + str(i / 2 + 1) + " of " + str(len(threads_array) / 2) + ")")
-            #urllib.urlretrieve('https://2ch.hk/' + m)
-            download_file(url, directory)
-
-    except urllib2.HTTPError:
-        print("Thread not found")
-        sys.exit()
-
-    except KeyboardInterrupt:
-        print("Break stoped")
-        exit()
-    except Exception, e:
-        print(e)
-        sys.exit()
-
+    if not os.path.isdir(folder):
+        os.makedirs(folder)
+        print "Create folder " + folder
+    else:
+        print "Folder " + folder + " alredy exists"
+    thread = urllib2.urlopen(url)
+    thread_media = re.findall(r'href="([^"]*' + pattern + ")", thread.read().decode('utf-8'))
+    thread_media = fix_array(thread_media)
+    for i, item in enumerate(thread_media):
+        filename = item.split("/")[-1]
+        media_url = "https://2ch.hk" + item
+        if isExist(folder + "/" + filename):
+            continue
+        print "Downloading " + filename + " (" + str(i) + " of " + str(len(thread_media)) + ")"
+        download_file(media_url, folder)
+def fix_array(array):
+    for i, item in enumerate(array):
+        if i % 2 == 0:
+            del array[i]
+    return array
 if __name__ == '__main__':
     ar = argparse.ArgumentParser("python abuscript.py https://2ch.hk/b/res/123405664.html",epilog="Easy-to-Use download webm's, pictures or gifs \n Files will downloaded in dir with abuscript")
     ar.add_argument('--version',action='version', version='version 1.0')
@@ -77,11 +59,8 @@ if __name__ == '__main__':
     ar.add_argument("-a",'--all',action="store_true", dest='all_switch',default=True,help="Download all files (Default)")
     ar.add_argument('-b','--board',action='store_true',dest='board_switch',default=False,help='Download all threads from board \n Example abuscript -b e')
     ar.add_argument('-t','--thread',action='store_true',dest='thread_switch',default=False,help='Download by number, only with -b (--board)')
-    result = ar.parse_args()
-    options = vars(result)
-    link = options['link'] #parse link
-    #dir_name = re.split(r'[https://2ch.hk/b/res/.html]+',link)
-    #dir_name =dir_name[1]
-    dir_name = link.split("/")[-1][:-5]
-   #dir_name = link.strip('https://2ch.hk/b/res/.html')
-    grub(link,ar,dir_name)
+    global args
+    args = ar.parse_args()
+    options = vars(args)
+    link = options['link']
+    download_thread(link)
