@@ -5,8 +5,8 @@ Require: Python2.7 and lower version
 It support all platforms(Linux, Windows, Mac)
 Usage: python abuscript.py https://2ch.hk/b/res/143636089.html | Easy way
 Usage: python abuscript.py -b e <-- 'boards' | To download full board
-Usage: python abuscript.py https://2ch.hk/b/res/143636089.html -w || -p || -g  | To download only webm|picture|gifs 
-May be in future GUI version 
+Usage: python abuscript.py https://2ch.hk/b/res/143636089.html -w || -p || -g  | To download only webm|picture|gifs
+May be in future GUI version
 
 WARNING: Will downloaded to the directory with abuscript
 '''
@@ -66,7 +66,7 @@ def download_thread(url):
     folder = url.split("/")[-1][:-5]
     pattern = get_pattern()
     if not os.path.isdir(folder):
-        #Verify exist folder 
+        #Verify exist folder
         os.makedirs(folder)
         print("Create folder " + folder)
     else:
@@ -84,7 +84,7 @@ def download_thread(url):
                 continue
             print("Downloading " + filename + " (" + str(i + 1) + " of " + str(len(thread_media)) + ")")
             download_file(media_url, folder)
-        #auto update every 10 iterations 
+        #auto update every 10 iterations
         if not args.board_switch:
             time.sleep(10)
             print('To the out, Press Ctrl + C')
@@ -99,10 +99,7 @@ def download_thread(url):
         print('Excetion: ' + e)
 def fix_array(array):
     #Checking for dublicat
-    for i, item in enumerate(array):
-        if i % 2 == 0:
-            del array[i]
-    return array
+    return list(set(array))
 
 if __name__ == '__main__':
     ar = argparse.ArgumentParser("python abuscript.py full link",\
