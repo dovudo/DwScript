@@ -1,7 +1,6 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python3
 '''
 DwScript.py
-Version 1.10.16
 
 It support all platforms(Linux, Windows, Mac)
 Usage: python DwScript.py https://2ch.hk/b/res/143636089.html | Easy way
@@ -19,9 +18,7 @@ import urllib.request
 import time
 import json
 from sys import argv
-# Copyright
 
-DwScript_version = '1.10.16'
 Cookie = 'usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad'
 
 # Create opener, an useful object to retrive files
@@ -86,9 +83,7 @@ def get_pattern():
     '''
     pattern = "(?:"
     if args.webm_switch:
-        pattern += "webm|"
-    if args.mp4_switch:
-        pattern += "mp4|"
+        pattern += "webm|mp4|"
     if args.picture_switch:
         pattern += "png|jpg|"
     if args.gif_switch:
@@ -145,25 +140,21 @@ def download_thread(url):
         print ("Stoped")
         exit()
 
-    except (Exception, e):
-        print ("Exception: " + e)
+    except Exception:
+        print ("Exception: {}, if you find any problems, please send the report to https://github.com/dovudo/DwScript/issues" + Exception)
 
-# Remove duplicates
+# Remove copy
 def fix_array(array):
    	return list(set(array))
 
+# Entrypoint args
 def __ARGS__():
     ar = argparse.ArgumentParser(
-    	description=" \n",
+    	description=" Easy-to-Use downloader webm's, mp4, pictures or gifs from 2ch.hk",
     	usage="python DwScript.py [link] [args]",
-    	# version="version {}".format(DwScript_version),
-    	epilog="Easy-to-Use download webm's, pictures or gifs \n \
-    	Files will downloaded in dir with script \n \
-    	after full downloading,\
-     	will monitoring for new files ")
+    	epilog="Files will downloaded in dir with script")
     ar.add_argument('link',nargs="?", metavar='link',type=str,help="Thread link")
-    ar.add_argument("-w","--webm",action="store_true",dest='webm_switch',help="Only webm's")
-    ar.add_argument("-mp4","--mp4",action="store_true",dest='mp4_switch',help="Only mp4's")
+    ar.add_argument("-w","--webm",action="store_true",dest='webm_switch',help="Only webms and mp4")
     ar.add_argument("-p","--picture",action="store_true",dest='picture_switch',help="Only pictures")
     ar.add_argument("-g","--gif",action="store_true",dest='gif_switch',help="Only gifs")
     ar.add_argument('-b','--board',metavar="board",dest='board_name',help='Download all threads from board \n \
