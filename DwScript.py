@@ -84,7 +84,7 @@ if __name__ == '__main__':
     ar.add_argument("-p","--picture",action="store_true",dest='picture_switch',default=False,help="Only pictures")
     ar.add_argument("-g","--gif",action="store_true",dest='gif_switch',default=False,help="Only gifs")
     ar.add_argument("-a",'--all',action="store_true", dest='all_switch',default=True,help="Download all files (Default)")
-    ar.add_argument('-b','--board',metavar="board",dest='board_switch',default="0",help='Download all threads from board \n Example abuscript -b e')
+    ar.add_argument('-b','--board',metavar="board",dest='board_switch',default=0,help='Download all threads from board \n Example abuscript -b e')
     ar.add_argument('-t','--thread',action='store_true',dest='thread_switch',default=False,help='Download by number, only with -b (--board)')
     global args
     args = ar.parse_args()
