@@ -2,6 +2,7 @@ import argparse
 import os
 import re
 import urllib2
+import time
 # Copyright
 #Function verify files exist
 def isExist(name_file):
@@ -33,7 +34,7 @@ def download_thread(url):
         os.makedirs(folder)
         print "Create folder " + folder
     else:
-        print "Folder " + folder + " alredy exists"
+        print "Thread sleep updating"
     thread = urllib2.urlopen(url)
     thread_media = re.findall(r'href="([^"]*' + pattern + ")", thread.read().decode('utf-8'))
     thread_media = fix_array(thread_media)
@@ -44,6 +45,11 @@ def download_thread(url):
             continue
         print "Downloading " + filename + " (" + str(i) + " of " + str(len(thread_media)) + ")"
         download_file(media_url, folder)
+    #auto update in iteration
+    time.sleep(10)
+    print 'To the out, Press Ctrl + C'
+    download_thread(url)
+                            
 def fix_array(array):
     for i, item in enumerate(array):
         if i % 2 == 0:
