@@ -65,10 +65,11 @@ def download_thread(url):
         download_file(media_url, folder)
 
     #auto update in iteration
-    time.sleep(10)
-    print 'To the out, Press Ctrl + C'
-    download_thread(url)
-                            
+    if not args.board_switch:
+        time.sleep(10)
+        print 'To the out, Press Ctrl + C'
+        download_thread(url)
+
 def fix_array(array):
     for i, item in enumerate(array):
         if i % 2 == 0:
