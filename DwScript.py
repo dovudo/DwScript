@@ -79,7 +79,7 @@ def fix_array(array):
 if __name__ == '__main__':
     ar = argparse.ArgumentParser("python abuscript.py https://2ch.hk/b/res/123405664.html",epilog="Easy-to-Use download webm's, pictures or gifs \n Files will downloaded in dir with abuscript")
     ar.add_argument('--version',action='version', version='version 1.0')
-    ar.add_argument('link', metavar='link',type=str,help="Thread link")
+    ar.add_argument('link',nargs="?", metavar='link',type=str,help="Thread link")
     ar.add_argument("-w","--webm",action="store_true",dest='webm_switch',default=False,help="Only webm's")
     ar.add_argument("-p","--picture",action="store_true",dest='picture_switch',default=False,help="Only pictures")
     ar.add_argument("-g","--gif",action="store_true",dest='gif_switch',default=False,help="Only gifs")
