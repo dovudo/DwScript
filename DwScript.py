@@ -1,6 +1,7 @@
+#!/usr/bin/python2.7
 '''
 abuscript.py
-Version 1.10.11
+Version 1.10.14
 Require: Python2.7 and lower version
 It support all platforms(Linux, Windows, Mac)
 Usage: python abuscript.py https://2ch.hk/b/res/143636089.html | Easy way
@@ -17,7 +18,11 @@ import re
 import urllib2
 import time
 import json
+from sys import argv
 # Copyright
+
+abuscript_version = '1.10.14'
+Cookie = 'usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad'
 
 def get_all_threads(board):
     """
@@ -25,14 +30,19 @@ def get_all_threads(board):
     use static Cookie
     Using json
     """
-    opener = urllib2.build_opener()
-    opener.addheaders.append(("Cookie", "usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad"))
-    catalog = opener.open("https://2ch.hk/" + board + "/catalog.json").read()
-    threads = json.loads(catalog)
-    threads_url = []
-    for num in threads["threads"]:
-        threads_url.append("https://2ch.hk/" + board + "/res/" + num["num"] + ".html")
-    return threads_url
+    try:
+    	opener = urllib2.build_opener()
+    	opener.addheaders.append(("Cookie", Cookie))
+    	catalog = opener.open("https://2ch.hk/" + board + "/catalog.json").read()
+    	threads = json.loads(catalog)
+    	threads_url = []
+    	for num in threads["threads"]:
+        	threads_url.append("https://2ch.hk/" + board + "/res/" + num["num"] + ".html")
+    	return threads_url
+    
+    except urllib2.HTTPError:
+    	print ' Board not found \n Check it'
+    	exit()
 
 def download_board(board):
     '''
@@ -58,7 +68,7 @@ def download_file(url, dirname):
     with use urllib2
     '''
     opener = urllib2.build_opener()
-    opener.addheaders.append(("Cookie", "usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad"))
+    opener.addheaders.append(("Cookie", Cookie))
     data = opener.open(url)
     with open(dirname + "/" + url.split("/")[-1], "wb") as out:
         out.write(data.read())
@@ -82,74 +92,82 @@ def get_pattern():
 
 def download_thread(url):
     '''
-    Download threads
+    Create folder and download threads
     '''
-    folder = url.split("/")[-1][:-5]
-    board = url.split("/")[3]
-    pattern = get_pattern()
-    if not os.path.isdir(folder):
-        #Verify exist folder
-        os.makedirs(folder)
-        print"Create folder " + folder
-    else:
-        print"Searching"
     try:
         opener = urllib2.build_opener()
-        opener.addheaders.append(("Cookie", "usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad"))
+        opener.addheaders.append(("Cookie", Cookie))
         thread = opener.open(url)
+        #Make folder name
+        #Spit boards 
+        folder_name = url.split("/")[-1][:-5]
+    	board = url.split("/")[3]
+    	pattern = get_pattern()
+
         thread_media = re.findall(r'href="(/' + board + '/src/[^"]*' + pattern + ")", \
         thread.read().decode('utf-8'))
         thread_media = fix_array(thread_media)
+        if not os.path.isdir(folder_name):
+        #Verify exist folder
+        	os.makedirs(folder_name)
+        	print"Create folder " + folder_name
+    	else:
+        	print"Searching"
+
         for i, item in enumerate(thread_media):
             filename = item.split("/")[-1]
             media_url = "https://2ch.hk" + item
-            if isExist(folder + "/" + filename):
+            if isExist(folder_name + "/" + filename):
                 continue
             print "Downloading " + filename + " (" + str(i + 1) + " of " + \
             str(len(thread_media)) + ")"
-            download_file(media_url, folder)
+            download_file(media_url, folder_name)
         #auto update every 10 iterations
         if not args.board_switch:
             time.sleep(10)
             print 'To the out, Press Ctrl + C'
             download_thread(url)
     except urllib2.URLError:
-        print'Thread not found'
+        print' Thread not found \n Check link'
         exit()
     except KeyboardInterrupt:
         print'Stoped'
         exit()
     except Exception, e:
         print'Excetion: ' + e
+
 def fix_array(array):
-    '''
-    Checking for dublicat
-    '''
-    return list(set(array))
+#Checking for dublicat
+   	return list(set(array))
 
 def __ARGS__():
-    ar = argparse.ArgumentParser("python abuscript.py full link",\
-    epilog="Example: python abuscript.py https://2ch.hk/b/res/143636089.html \n \
-    Easy-to-Use download webm's, pictures or gifs \n \
-    Files will downloaded in dir with script \n \
-    after full downloading,\ will monitoring for new files ")
-    ar.add_argument('--version',action='version', version='version 1.10.11')
+    ar = argparse.ArgumentParser(
+    	description=" \n",
+    	usage="python abuscript.py [link] [args]",
+    	version="version {}".format(abuscript_version),
+    	epilog="Easy-to-Use download webm's, pictures or gifs \n \
+    	Files will downloaded in dir with script \n \
+    	after full downloading,\
+     	will monitoring for new files ")
     ar.add_argument('link',nargs="?", metavar='link',type=str,help="Thread link")
     ar.add_argument("-w","--webm",action="store_true",dest='webm_switch',default=False,help="Only webm's")
     ar.add_argument("-p","--picture",action="store_true",dest='picture_switch',default=False,help="Only pictures")
     ar.add_argument("-g","--gif",action="store_true",dest='gif_switch',default=False,help="Only gifs")
-    ar.add_argument("-a",'--all',action="store_true", dest='all_switch',default=True,help="Download all files (Default)") #Check it
-    ar.add_argument('-b','--board',metavar="board",dest='board_switch',default=0,help='Download all threads from board \n \
+    ar.add_argument('-b','--board',metavar="board",dest='board_name',default=0,help='Download all threads from board \n \
     Example abuscript -b e')
+    ar.add_argument('--cookie',metavar='Cookie',dest='Cookie',default=Cookie,help='set Cookie, \
+    if dont work hidden boards')
 
     global args
     args = ar.parse_args()
     options = vars(args)
     link = options['link']
-    board = args.board_switch
-    if link == None and board == 0:
-        ar.print_help()
-        exit()
+    board = args.board_name
+    #If no arguments print help
+    if len(argv) == 1:
+    	ar.print_help()
+    	exit()
+
     if board:
         download_board(board)
     else:
