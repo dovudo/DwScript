@@ -122,6 +122,9 @@ if __name__ == '__main__':
     options = vars(args)
     link = options['link']
     board = args.board_switch
+    if link == None and board == 0:
+        ar.print_help()
+        exit()
     if board:
         download_board(board)
     else:
