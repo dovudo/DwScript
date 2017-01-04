@@ -64,6 +64,7 @@ def get_pattern():
 
 def download_thread(url):
     folder = url.split("/")[-1][:-5]
+    board = url.split("/")[3]
     pattern = get_pattern()
     if not os.path.isdir(folder):
         #Verify exist folder
@@ -75,7 +76,7 @@ def download_thread(url):
         opener = urllib2.build_opener()
         opener.addheaders.append(("Cookie", "usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad"))
         thread = opener.open(url)
-        thread_media = re.findall(r'href="([^"]*' + pattern + ")", thread.read().decode('utf-8'))
+        thread_media = re.findall(r'href="(/' + board + '/src/[^"]*' + pattern + ")", thread.read().decode('utf-8'))
         thread_media = fix_array(thread_media)
         for i, item in enumerate(thread_media):
             filename = item.split("/")[-1]
