@@ -8,7 +8,9 @@ import json
 #Function verify files exist
 
 def get_all_threads(board):
-    catalog = urllib2.urlopen("https://2ch.hk/" + board + "/catalog.json").read()
+    opener = urllib2.build_opener()
+    opener.addheaders.append(("Cookie", "usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad"))
+    catalog = opener.open("https://2ch.hk/" + board + "/catalog.json").read()
     threads = json.loads(catalog)
     threads_url = []
     for num in threads["threads"]:
@@ -27,7 +29,9 @@ def isExist(name_file):
         return False
 
 def download_file(url, dirname):
-    data = urllib2.urlopen(url)
+    opener = urllib2.build_opener()
+    opener.addheaders.append(("Cookie", "usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad"))
+    data = opener.open(url)
     with open(dirname + "/" + url.split("/")[-1], "wb") as out:
         out.write(data.read())
 
@@ -53,7 +57,9 @@ def download_thread(url):
         print "Create folder " + folder
     else:
         print "Thread sleep updating"
-    thread = urllib2.urlopen(url)
+    opener = urllib2.build_opener()
+    opener.addheaders.append(("Cookie", "usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad"))
+    thread = opener.open(url)
     thread_media = re.findall(r'href="([^"]*' + pattern + ")", thread.read().decode('utf-8'))
     thread_media = fix_array(thread_media)
     for i, item in enumerate(thread_media):
