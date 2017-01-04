@@ -1,6 +1,6 @@
 '''
 abuscript.py
-Version 1.10.8
+Version 1.10.11
 Require: Python2.7 and lower version
 It support all platforms(Linux, Windows, Mac)
 Usage: python abuscript.py https://2ch.hk/b/res/143636089.html | Easy way
@@ -20,6 +20,11 @@ import json
 # Copyright
 
 def get_all_threads(board):
+    """
+    Get all threads in board
+    use static Cookie
+    Using json
+    """
     opener = urllib2.build_opener()
     opener.addheaders.append(("Cookie", "usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad"))
     catalog = opener.open("https://2ch.hk/" + board + "/catalog.json").read()
@@ -30,18 +35,28 @@ def get_all_threads(board):
     return threads_url
 
 def download_board(board):
+    '''
+    Geting all thread in board 
+    and download
+    '''
     threads = get_all_threads(board)
     for item in threads:
         download_thread(item)
 
 def isExist(name_file):
-    #Function verify files exist
+    '''
+    Function verify files exist
+    '''
     if os.path.isfile(name_file):
         return True
     else:
         return False
 
 def download_file(url, dirname):
+    '''
+    Download files 
+    with use urllib2
+    '''
     opener = urllib2.build_opener()
     opener.addheaders.append(("Cookie", "usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad"))
     data = opener.open(url)
@@ -49,6 +64,9 @@ def download_file(url, dirname):
         out.write(data.read())
 
 def get_pattern():
+    '''
+    Filter input arguments
+    '''
     pattern = "(?:"
     if args.webm_switch:
         pattern += "webm|"
@@ -63,52 +81,59 @@ def get_pattern():
     return pattern
 
 def download_thread(url):
+    '''
+    Download threads
+    '''
     folder = url.split("/")[-1][:-5]
     board = url.split("/")[3]
     pattern = get_pattern()
     if not os.path.isdir(folder):
         #Verify exist folder
         os.makedirs(folder)
-        print("Create folder " + folder)
+        print"Create folder " + folder
     else:
-        print("Searching")
+        print"Searching"
     try:
         opener = urllib2.build_opener()
         opener.addheaders.append(("Cookie", "usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad"))
         thread = opener.open(url)
-        thread_media = re.findall(r'href="(/' + board + '/src/[^"]*' + pattern + ")", thread.read().decode('utf-8'))
+        thread_media = re.findall(r'href="(/' + board + '/src/[^"]*' + pattern + ")", \
+        thread.read().decode('utf-8'))
         thread_media = fix_array(thread_media)
         for i, item in enumerate(thread_media):
             filename = item.split("/")[-1]
             media_url = "https://2ch.hk" + item
             if isExist(folder + "/" + filename):
                 continue
-            print("Downloading " + filename + " (" + str(i + 1) + " of " + str(len(thread_media)) + ")")
+            print "Downloading " + filename + " (" + str(i + 1) + " of " + \
+            str(len(thread_media)) + ")"
             download_file(media_url, folder)
         #auto update every 10 iterations
         if not args.board_switch:
             time.sleep(10)
-            print('To the out, Press Ctrl + C')
+            print 'To the out, Press Ctrl + C'
             download_thread(url)
     except urllib2.URLError:
-        print('Thread not found')
+        print'Thread not found'
         exit()
     except KeyboardInterrupt:
-        print('Stoped')
+        print'Stoped'
         exit()
     except Exception, e:
-        print('Excetion: ' + e)
+        print'Excetion: ' + e
 def fix_array(array):
-    #Checking for dublicat
+    '''
+    Checking for dublicat
+    '''
     return list(set(array))
 
-if __name__ == '__main__':
+def __ARGS__():
     ar = argparse.ArgumentParser("python abuscript.py full link",\
     epilog="Example: python abuscript.py https://2ch.hk/b/res/143636089.html \n \
     Easy-to-Use download webm's, pictures or gifs \n \
     Files will downloaded in dir with script \n \
     after full downloading,\ will monitoring for new files ")
-    ar.add_argument('--version',action='version', version='version 1.10.8')
+    ar.add_argument('--version',action='version', version='version 1.10.11')
     ar.add_argument('link',nargs="?", metavar='link',type=str,help="Thread link")
     ar.add_argument("-w","--webm",action="store_true",dest='webm_switch',default=False,help="Only webm's")
     ar.add_argument("-p","--picture",action="store_true",dest='picture_switch',default=False,help="Only pictures")
@@ -129,3 +154,6 @@ if __name__ == '__main__':
         download_board(board)
     else:
         download_thread(link)
+
+if __name__ == '__main__':
+   __ARGS__()
