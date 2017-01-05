@@ -39,14 +39,14 @@ def get_all_threads(board):
     	for num in threads["threads"]:
         	threads_url.append("https://2ch.hk/" + board + "/res/" + num["num"] + ".html")
     	return threads_url
-    
+
     except urllib2.HTTPError:
     	print ' Board not found \n Check it'
     	exit()
 
 def download_board(board):
     '''
-    Geting all thread in board 
+    Geting all thread in board
     and download
     '''
     threads = get_all_threads(board)
@@ -64,7 +64,7 @@ def isExist(name_file):
 
 def download_file(url, dirname):
     '''
-    Download files 
+    Download files
     with use urllib2
     '''
     opener = urllib2.build_opener()
@@ -99,7 +99,7 @@ def download_thread(url):
         opener.addheaders.append(("Cookie", Cookie))
         thread = opener.open(url)
         #Make folder name
-        #Spit boards 
+        #Spit boards
         folder_name = url.split("/")[-1][:-5]
     	board = url.split("/")[3]
     	pattern = get_pattern()
@@ -123,7 +123,7 @@ def download_thread(url):
             str(len(thread_media)) + ")"
             download_file(media_url, folder_name)
         #auto update every 10 iterations
-        if not args.board_switch:
+        if not args.board_name:
             time.sleep(10)
             print 'To the out, Press Ctrl + C'
             download_thread(url)
@@ -164,7 +164,7 @@ def __ARGS__():
     link = options['link']
     board = args.board_name
     #If no arguments print help
-    if len(argv) == 1:
+    if board == 0 and not link:
     	ar.print_help()
     	exit()
 
