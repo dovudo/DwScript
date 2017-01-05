@@ -70,8 +70,13 @@ def download_file(url, dirname):
     opener = urllib2.build_opener()
     opener.addheaders.append(("Cookie", Cookie))
     data = opener.open(url)
-    with open(dirname + "/" + url.split("/")[-1], "wb") as out:
-        out.write(data.read())
+    filename = url.split("/")[-1]
+    try:
+        with open(dirname + "/" + filename, "wb") as out:
+            out.write(data.read())
+    except:
+        os.remove(dirname + "/" + filename)
+        exit()
 
 def get_pattern():
     '''
