@@ -24,6 +24,11 @@ from sys import argv
 abuscript_version = '1.10.14'
 Cookie = 'usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad'
 
+# Create opener, an useful object to retrive files
+global opener
+opener = urllib2.build_opener()
+opener.addheaders.append(("Cookie", Cookie))
+
 def get_all_threads(board):
     """
     Get all threads in board
@@ -31,8 +36,6 @@ def get_all_threads(board):
     Using json
     """
     try:
-    	opener = urllib2.build_opener()
-    	opener.addheaders.append(("Cookie", Cookie))
     	catalog = opener.open("https://2ch.hk/" + board + "/catalog.json").read()
     	threads = json.loads(catalog)
     	threads_url = []
@@ -67,8 +70,6 @@ def download_file(url, dirname):
     Download files
     with use urllib2
     '''
-    opener = urllib2.build_opener()
-    opener.addheaders.append(("Cookie", Cookie))
     data = opener.open(url)
     filename = url.split("/")[-1]
     try:
@@ -100,8 +101,6 @@ def download_thread(url):
     Create folder and download threads
     '''
     try:
-        opener = urllib2.build_opener()
-        opener.addheaders.append(("Cookie", Cookie))
         thread = opener.open(url)
         #Make folder name
         #Spit boards
