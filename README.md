@@ -3,9 +3,9 @@
 ####DwScript
 
 Easy-To-Use script for downloading webm,picture,gifs from imageboard '2ch.hk'
-It can download only threads and boards with full treads(even hidden boards).
+It can download threads as well as whole boards(even hidden boards).
 
-##Use example
+##How to use
 
 Open folder with DwScript in Terminal(or CMD)
 - python DwScript.py --help | View help
@@ -15,10 +15,10 @@ Open folder with DwScript in Terminal(or CMD)
 
 > All files will download in folder with DwScript 
 
-##Require
+##Requirement
 Python2.7 and lower version
 
-##Install 
+##Installation
 - Install python 2.7
 > https://www.python.org/downloads/
 
@@ -31,7 +31,7 @@ Python2.7 and lower version
 
 	Press button 'Clone or download' on this page
 
-###It supported
+###It supports
 ```
 Windows
 Linux
@@ -39,7 +39,7 @@ Mac
 Ubuntu phone(if have 'python')
 ```
 ##P.S.
-In 'Windows' may be some problems of python run
+Python might have some problems running on windows
 
 Use:
 > C:\Python27\python.exe 'way to the script'

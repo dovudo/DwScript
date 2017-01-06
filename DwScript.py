@@ -1,15 +1,15 @@
 #!/usr/bin/python2.7
 '''
-abuscript.py
-Version 1.10.14
-Require: Python2.7 and lower version
+DwScript.py
+Version 1.10.15
+
 It support all platforms(Linux, Windows, Mac)
-Usage: python abuscript.py https://2ch.hk/b/res/143636089.html | Easy way
-Usage: python abuscript.py -b e <-- 'boards' | To download full board
-Usage: python abuscript.py https://2ch.hk/b/res/143636089.html -w || -p || -g  | To download only webm|picture|gifs
+Usage: python DwScript.py https://2ch.hk/b/res/143636089.html | Easy way
+Usage: python DwScript.py -b e <-- 'boards' | To download full board
+Usage: python DwScript.py https://2ch.hk/b/res/143636089.html -w || -p || -g  | To download only webm|picture|gifs
 May be in future GUI version
 
-WARNING: Will downloaded to the directory with abuscript
+WARNING: Will downloaded to the directory with DwScript
 '''
 
 import argparse
@@ -21,7 +21,7 @@ import json
 from sys import argv
 # Copyright
 
-abuscript_version = '1.10.14'
+DwScript_version = '1.10.15'
 Cookie = 'usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad'
 
 # Create opener, an useful object to retrive files
@@ -147,8 +147,8 @@ def fix_array(array):
 def __ARGS__():
     ar = argparse.ArgumentParser(
     	description=" \n",
-    	usage="python abuscript.py [link] [args]",
-    	version="version {}".format(abuscript_version),
+    	usage="python DwScript.py [link] [args]",
+    	version="version {}".format(DwScript_version),
     	epilog="Easy-to-Use download webm's, pictures or gifs \n \
     	Files will downloaded in dir with script \n \
     	after full downloading,\
@@ -158,7 +158,7 @@ def __ARGS__():
     ar.add_argument("-p","--picture",action="store_true",dest='picture_switch',default=False,help="Only pictures")
     ar.add_argument("-g","--gif",action="store_true",dest='gif_switch',default=False,help="Only gifs")
     ar.add_argument('-b','--board',metavar="board",dest='board_name',default=0,help='Download all threads from board \n \
-    Example abuscript -b e')
+    Example DwScript -b e')
     ar.add_argument('--cookie',metavar='Cookie',dest='Cookie',default=Cookie,help='set Cookie, \
     if dont work hidden boards')
 
