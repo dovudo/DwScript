@@ -44,7 +44,7 @@ def get_all_threads(board):
     	return threads_url
 
     except urllib2.HTTPError:
-    	print ' Board not found \n Check it'
+    	print "Board not found \n Check it"
     	exit()
 
 def download_board(board):
@@ -102,8 +102,10 @@ def download_thread(url):
     '''
     try:
         thread = opener.open(url)
-        #Make folder name
-        #Spit boards
+        '''
+        Make folder name
+        Spit boards
+        '''
         folder_name = url.split("/")[-1][:-5]
     	board = url.split("/")[3]
     	pattern = get_pattern()
@@ -111,12 +113,12 @@ def download_thread(url):
         thread_media = re.findall(r'href="(/' + board + '/src/[^"]*' + pattern + ")", \
         thread.read().decode('utf-8'))
         thread_media = fix_array(thread_media)
-        if not os.path.isdir(folder_name):
-        #Verify exist folder
+
+        if not os.path.isdir(folder_name): # Check folder existance
         	os.makedirs(folder_name)
-        	print"Create folder " + folder_name
+        	print "Create folder " + folder_name
     	else:
-        	print"Searching"
+        	print "Searching"
 
         for i, item in enumerate(thread_media):
             filename = item.split("/")[-1]
@@ -126,22 +128,26 @@ def download_thread(url):
             print "Downloading " + filename + " (" + str(i + 1) + " of " + \
             str(len(thread_media)) + ")"
             download_file(media_url, folder_name)
-        #auto update every 10 iterations
+
+        # Realod thread after 10 seconds (if no board mode)
         if not args.board_name:
             time.sleep(10)
-            print 'To the out, Press Ctrl + C'
+            print "To the out, Press Ctrl + C"
             download_thread(url)
-    except urllib2.URLError:
-        print' Thread not found \n Check link'
-        exit()
-    except KeyboardInterrupt:
-        print'Stoped'
-        exit()
-    except Exception, e:
-        print'Excetion: ' + e
 
+    except urllib2.URLError:
+        print "Thread not found \n Check link"
+        exit()
+
+    except KeyboardInterrupt:
+        print "Stoped"
+        exit()
+
+    except Exception, e:
+        print "Exception: " + e
+
+# Remove duplicates
 def fix_array(array):
-#Checking for dublicat
    	return list(set(array))
 
 def __ARGS__():
@@ -154,10 +160,10 @@ def __ARGS__():
     	after full downloading,\
      	will monitoring for new files ")
     ar.add_argument('link',nargs="?", metavar='link',type=str,help="Thread link")
-    ar.add_argument("-w","--webm",action="store_true",dest='webm_switch',default=False,help="Only webm's")
-    ar.add_argument("-p","--picture",action="store_true",dest='picture_switch',default=False,help="Only pictures")
-    ar.add_argument("-g","--gif",action="store_true",dest='gif_switch',default=False,help="Only gifs")
-    ar.add_argument('-b','--board',metavar="board",dest='board_name',default=0,help='Download all threads from board \n \
+    ar.add_argument("-w","--webm",action="store_true",dest='webm_switch',help="Only webm's")
+    ar.add_argument("-p","--picture",action="store_true",dest='picture_switch',help="Only pictures")
+    ar.add_argument("-g","--gif",action="store_true",dest='gif_switch',help="Only gifs")
+    ar.add_argument('-b','--board',metavar="board",dest='board_name',help='Download all threads from board \n \
     Example DwScript -b e')
     ar.add_argument('--cookie',metavar='Cookie',dest='Cookie',default=Cookie,help='set Cookie, \
     if dont work hidden boards')
@@ -168,7 +174,7 @@ def __ARGS__():
     link = options['link']
     board = args.board_name
     #If no arguments print help
-    if board == 0 and not link:
+    if not board and not link:
     	ar.print_help()
     	exit()
 
