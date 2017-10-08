@@ -1,11 +1,11 @@
-##About
+## About
 
-####DwScript
+#### DwScript
 
 Easy-To-Use script for downloading webm,picture,gifs from imageboard '2ch.hk'
 It can download threads as well as whole boards(even hidden boards).
 
-##How to use
+## How to use
 
 Open folder with DwScript in Terminal(or CMD)
 - python DwScript.py --help | View help
@@ -15,10 +15,10 @@ Open folder with DwScript in Terminal(or CMD)
 
 > All files will download in folder with DwScript 
 
-##Requirement
+## Requirement
 Python2.7 and lower version
 
-##Installation
+## Installation
 - Install python 2.7
 > https://www.python.org/downloads/
 
@@ -31,14 +31,14 @@ Python2.7 and lower version
 
 	Press button 'Clone or download' on this page
 
-###It supports
+### It supports
 ```
 Windows
 Linux
 Mac
 Ubuntu phone(if have 'python')
 ```
-##P.S.
+## P.S.
 Python might have some problems running on windows
 
 Use:
@@ -47,12 +47,12 @@ Use:
 ====
 ====
 
-##О DwScript
+## О DwScript
 
 Простой в применении скрип для скачивания вебемок, картинок, и гифок со всеми нами любимого "Двача"
 Он может качать как треды, так и целый доски со всеми тредами (даже скрытие)
 
-##Как использовать
+## Как использовать
 
 Открыть папку с 'DwScript' в терминале(или в cmd)
 
@@ -63,11 +63,11 @@ Use:
 
 > Все файлы буду скачиваться в папку со скриптом
 
-##Требования
+## Требования
 
 python2.7 и версии ниже
 
-##Установка
+## Установка
 - Качаем и устанавливаем python2.7 (Если его нет)
 > https://www.python.org/downloads/
  
@@ -79,7 +79,7 @@ python2.7 и версии ниже
 Или просто нажимаем 'Clone or download' на этой странице
 
 
-##Поддерживаемые платформы
+## Поддерживаемые платформы
 ```
 Windows
 Linux
@@ -87,14 +87,14 @@ Mac
 Ubuntu phone (если есть 'python')
 ```
 
-#Примечания 
+# Примечания 
 На "Windows" могут быть проблемы с запуском "python"
 
 Use:
 > C:\Python27\python.exe 'way to the script'
 
 ---
-####Authors
+#### Authors
 *Dov*
 
 [*omgee*] (https://github.com/omgee/) :+1:
