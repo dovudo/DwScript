@@ -77,8 +77,9 @@ def download_file(url, dirname):
             out.write(data.read())
     except:
         os.remove(dirname + "/" + filename)
-        exit()
-
+        print("aborted by site")
+        download_file(url,dirname)
+       
 def get_pattern():
     '''
     Filter input arguments
@@ -129,10 +130,10 @@ def download_thread(url):
             str(len(thread_media)) + ")"
             download_file(media_url, folder_name)
 
-        # Realod thread after 10 seconds (if no board mode)
+        # Realod thread after 30 seconds (if no board mode)
         if not args.board_name:
-            time.sleep(10)
-            print "To the out, Press Ctrl + C"
+            print "I'm sleeping at 30 sec \nPress Ctrl + C, to exit"
+            time.sleep(30)           
             download_thread(url)
 
     except urllib2.URLError:
