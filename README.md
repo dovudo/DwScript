@@ -1,4 +1,4 @@
-## About
+﻿## About
 
 #### DwScript
 
@@ -7,20 +7,26 @@ It can download threads as well as whole boards(even hidden boards).
 
 ## How to use
 
-Open folder with DwScript in Terminal(or CMD)
+1) Click DwScript.exe shortcut.
+
+2) Open folder with DwScript in Terminal(or CMD)
 - python DwScript.py --help | View help
 - python DwScript.py 2ch.hk/b/6543346/3423463.html | All download files
 - python DwScript.py 2ch.hk/b/6543346/3423463.html -w | Only web'm
 - python DwSCript.py -b b | Download 'b' board with full treads
 
-> All files will download in folder with DwScript 
+> All files will download in folder dist/DwScript/*thread number*
 
 ## Requirement
-Python2.7 and lower version
+cmd version:
+  Python2.7 and lower version
+gui versin
+  nothing
 
 ## Installation
-- Install python 2.7
-> https://www.python.org/downloads/
+for cmd version
+  - Install python 2.7
+  > https://www.python.org/downloads/
 
 - Download 'DwScript' 
 
@@ -49,27 +55,35 @@ Use:
 
 ## О DwScript
 
-Простой в применении скрип для скачивания вебемок, картинок, и гифок со всеми нами любимого "Двача"
+Простой в применении скрипт для скачивания вебемок, картинок, и гифок со всеми нами любимого "Двача"
 Он может качать как треды, так и целый доски со всеми тредами (даже скрытие)
 
 ## Как использовать
 
-Открыть папку с 'DwScript' в терминале(или в cmd)
+1) Клацнуть на ярлык dwScript.exe. Откроется форма.
 
-- python DwScript.py --help | Просматреть помощь
-- python DwScript.py 2ch.hk/b/6543346/3423463.html | Скачать все файлы
-- python DwScript.py 2ch.hk/b/6543346/3423463.html -w | Скачать только вебемки
-- python DwSCript.py -b b | Скачать доску со всеми тредами (в данном примере 'б')
+2) Открыть папку с 'DwScript' в терминале(или в cmd)
 
-> Все файлы буду скачиваться в папку со скриптом
+  - python DwScript.py --help | Просматреть помощь
+  - python DwScript.py 2ch.hk/b/6543346/3423463.html | Скачать все файлы
+  - python DwScript.py 2ch.hk/b/6543346/3423463.html -w | Скачать только вебемки
+  - python DwSCript.py -b b | Скачать доску со всеми тредами (в данном примере 'б')
+
+> Все файлы буду скачиваться в папкe dist/DwScript/*номер треда*
 
 ## Требования
 
-python2.7 и версии ниже
+Для запуска из командной строки:
+
+  python2.7 и версии ниже.
+
+Для запуска через ярлык:
+  ничего.
 
 ## Установка
-- Качаем и устанавливаем python2.7 (Если его нет)
-> https://www.python.org/downloads/
+Для запуска из командной строки: 
+  - Качаем и устанавливаем python2.7 (Если его нет)
+  > https://www.python.org/downloads/
  
 - Скачиваем сам 'DwScript'
  
@@ -95,6 +109,7 @@ Use:
 
 ---
 #### Authors
-*Dov*
+*Dov* -- script
+*EnCrud* -- gui and .exe version on python 3.x
 
 [*omgee*] (https://github.com/omgee/) :+1:
