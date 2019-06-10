@@ -1,0 +1,2 @@
+Зайди в папку dist, из нее в папку DwScript
+Запусти DwScript.exe
