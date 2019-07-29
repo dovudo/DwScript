@@ -17,16 +17,17 @@ It can download threads as well as whole boards(even hidden boards).
 
 > All files will download in folder dist/DwScript/*thread number*
 
+## GUI version (alpha)
+
+- open /dist/DwScript folder
+- run DwScript.exe
+
 ## Requirement
 cmd version:
   Python2.7 and lower version
 gui versin
   nothing
 
-#GUI version (alpha)
-
-- open /dist/DwScript folder
-- run DwScript.exe
 
 ## Installation
 for cmd version
