@@ -23,6 +23,11 @@ cmd version:
 gui versin
   nothing
 
+#GUI version (alpha)
+
+- open /dist/DwScript folder
+- run DwScript.exe
+
 ## Installation
 for cmd version
   - Install python 2.7
@@ -105,7 +110,11 @@ Ubuntu phone (если есть 'python')
 На "Windows" могут быть проблемы с запуском "python"
 
 Use:
-> C:\Python27\python.exe 'way to the script'
+> C:\Python27\python.exe 'путь до файла DwScript.py'
+
+# Запуск с графической оболочкой
+- Открыть папку /dist/DwScript/
+- Запустить DwScript.exe
 
 ---
 #### Authors
