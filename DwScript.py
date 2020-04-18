@@ -87,6 +87,8 @@ def get_pattern():
     pattern = "(?:"
     if args.webm_switch:
         pattern += "webm|"
+    if args.mp4_switch:
+        pattern += "mp4|"
     if args.picture_switch:
         pattern += "png|jpg|"
     if args.gif_switch:
@@ -94,7 +96,7 @@ def get_pattern():
     if pattern != "(?:":
         pattern = pattern[:-1] + ")"
     else:
-        pattern = "(?:webm|png|jpg|gif)"
+        pattern = "(?:webm|mp4|png|jpg|gif)"
     return pattern
 
 def download_thread(url):
@@ -162,6 +164,7 @@ def __ARGS__():
      	will monitoring for new files ")
     ar.add_argument('link',nargs="?", metavar='link',type=str,help="Thread link")
     ar.add_argument("-w","--webm",action="store_true",dest='webm_switch',help="Only webm's")
+    ar.add_argument("-mp4","--mp4",action="store_true",dest='mp4_switch',help="Only mp4's")
     ar.add_argument("-p","--picture",action="store_true",dest='picture_switch',help="Only pictures")
     ar.add_argument("-g","--gif",action="store_true",dest='gif_switch',help="Only gifs")
     ar.add_argument('-b','--board',metavar="board",dest='board_name',help='Download all threads from board \n \
