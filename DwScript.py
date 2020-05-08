@@ -1,7 +1,7 @@
 #!/usr/bin/python2.7
 '''
 DwScript.py
-Version 1.10.15
+Version 1.10.16
 
 It support all platforms(Linux, Windows, Mac)
 Usage: python DwScript.py https://2ch.hk/b/res/143636089.html | Easy way
@@ -15,18 +15,18 @@ WARNING: Will downloaded to the directory with DwScript
 import argparse
 import os
 import re
-import urllib2
+import urllib.request
 import time
 import json
 from sys import argv
 # Copyright
 
-DwScript_version = '1.10.15'
+DwScript_version = '1.10.16'
 Cookie = 'usercode_auth=35f8469792fdfbf797bbdf48bab4a3ad'
 
 # Create opener, an useful object to retrive files
 global opener
-opener = urllib2.build_opener()
+opener = urllib.request.build_opener()
 opener.addheaders.append(("Cookie", Cookie))
 
 def get_all_threads(board):
@@ -43,8 +43,8 @@ def get_all_threads(board):
         	threads_url.append("https://2ch.hk/" + board + "/res/" + num["num"] + ".html")
     	return threads_url
 
-    except urllib2.HTTPError:
-    	print "Board not found \n Check it"
+    except urllib.request.HTTPError:
+    	print ("Board not found \n Check it")
     	exit()
 
 def download_board(board):
@@ -68,7 +68,7 @@ def isExist(name_file):
 def download_file(url, dirname):
     '''
     Download files
-    with use urllib2
+    with use urllib.request
     '''
     data = opener.open(url)
     filename = url.split("/")[-1]
@@ -110,8 +110,8 @@ def download_thread(url):
         Spit boards
         '''
         folder_name = url.split("/")[-1][:-5]
-    	board = url.split("/")[3]
-    	pattern = get_pattern()
+        board = url.split("/")[3]
+        pattern = get_pattern()
 
         thread_media = re.findall(r'href="(/' + board + '/src/[^"]*' + pattern + ")", \
         thread.read().decode('utf-8'))
@@ -119,35 +119,34 @@ def download_thread(url):
 
         if not os.path.isdir(folder_name): # Check folder existance
         	os.makedirs(folder_name)
-        	print "Create folder " + folder_name
-    	else:
-        	print "Searching"
+        	print ("Create folder " + folder_name)
+        else:
+            print ("Searching")
 
         for i, item in enumerate(thread_media):
             filename = item.split("/")[-1]
             media_url = "https://2ch.hk" + item
             if isExist(folder_name + "/" + filename):
                 continue
-            print "Downloading " + filename + " (" + str(i + 1) + " of " + \
-            str(len(thread_media)) + ")"
+            print ("Downloading " + filename + " (" + str(i + 1) + " of " + str(len(thread_media)) + ")")
             download_file(media_url, folder_name)
 
         # Realod thread after 30 seconds (if no board mode)
         if not args.board_name:
-            print "I'm sleeping at 30 sec \nPress Ctrl + C, to exit"
+            print ("I'm sleeping at 30 sec \nPress Ctrl + C, to exit")
             time.sleep(30)           
             download_thread(url)
 
-    except urllib2.URLError:
-        print "Thread not found \n Check link"
+    except urllib.request.URLError:
+        print ("Thread not found \n Check link")
         exit()
 
     except KeyboardInterrupt:
-        print "Stoped"
+        print ("Stoped")
         exit()
 
-    except Exception, e:
-        print "Exception: " + e
+    except (Exception, e):
+        print ("Exception: " + e)
 
 # Remove duplicates
 def fix_array(array):
@@ -157,7 +156,7 @@ def __ARGS__():
     ar = argparse.ArgumentParser(
     	description=" \n",
     	usage="python DwScript.py [link] [args]",
-    	version="version {}".format(DwScript_version),
+    	# version="version {}".format(DwScript_version),
     	epilog="Easy-to-Use download webm's, pictures or gifs \n \
     	Files will downloaded in dir with script \n \
     	after full downloading,\
