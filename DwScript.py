@@ -141,7 +141,7 @@ def download_thread(url):
         exit()
 
     except Exception:
-        print ("Exception: {}, if you find any problems, please send the report to https://github.com/dovudo/DwScript/issues" + Exception)
+        print ("Exception: {Exception}, if you find any problems, please send the report to https://github.com/dovudo/DwScript/issues" )
 
 # Remove copy
 def fix_array(array):
