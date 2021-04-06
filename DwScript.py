@@ -53,15 +53,6 @@ def download_board(board):
     for item in threads:
         download_thread(item)
 
-def isExist(name_file):
-    '''
-    Function verify files exist
-    '''
-    if os.path.isfile(name_file):
-        return True
-    else:
-        return False
-
 def download_file(url, dirname):
     '''
     Download files
@@ -108,9 +99,8 @@ def download_thread(url):
         board = url.split("/")[3]
         pattern = get_pattern()
 
-        thread_media = re.findall(r'href="(/' + board + '/src/[^"]*' + pattern + ")", \
-        thread.read().decode('utf-8'))
-        thread_media = fix_array(thread_media)
+        thread_media = list(set(re.findall(r'href="(/' + board + '/src/[^"]*' + pattern + ")", \
+        thread.read().decode('utf-8'))))
 
         if not os.path.isdir(folder_name): # Check folder existance
         	os.makedirs(folder_name)
@@ -121,7 +111,7 @@ def download_thread(url):
         for i, item in enumerate(thread_media):
             filename = item.split("/")[-1]
             media_url = "https://2ch.hk" + item
-            if isExist(folder_name + "/" + filename):
+            if os.path.isfile(folder_name + "/" + filename):
                 continue
             print ("Downloading " + filename + " (" + str(i + 1) + " of " + str(len(thread_media)) + ")")
             download_file(media_url, folder_name)
@@ -142,10 +132,6 @@ def download_thread(url):
 
     except Exception:
         print ("Exception: {}, if you find any problems, please send the report to https://github.com/dovudo/DwScript/issues" + Exception)
-
-# Remove copy
-def fix_array(array):
-   	return list(set(array))
 
 # Entrypoint args
 def __ARGS__():
