@@ -10,12 +10,13 @@ It can download threads as well as whole boards(even hidden boards).
 1) Click DwScript.exe shortcut.
 
 2) Open folder with DwScript in Terminal(or CMD)
-- python DwScript.py --help | View help
-- python DwScript.py 2ch.hk/b/6543346/3423463.html | All download files
-- python DwScript.py 2ch.hk/b/6543346/3423463.html -w | Only web'm
-- python DwSCript.py -b b | Download 'b' board with full treads
+- python DwScript.py --help | Show help
+- python DwScript.py 2ch.hk/b/6543346/3423463.html | Download all files from the thread
+- python DwScript.py 2ch.hk/b/6543346/3423463.html -w | Download only web'm from the thread
+- python DwSCript.py -b b | Download all content from selected board.
 
-> All files will download in folder dist/DwScript/*thread number*
+> The path of saved files will be in the same path of DwScript.  
+> Example: "path to DwScript"/*thread number*
 
 ## GUI version (alpha)
 
@@ -25,8 +26,6 @@ It can download threads as well as whole boards(even hidden boards).
 ## Requirement
 cmd version:
   Python2.7 and lower version
-gui versin
-  nothing
 
 
 ## Installation
@@ -43,13 +42,6 @@ for cmd version
 
 	Press button 'Clone or download' on this page
 
-### It supports
-```
-Windows
-Linux
-Mac
-Ubuntu phone(if have 'python')
-```
 ## P.S.
 Python might have some problems running on windows
 
@@ -66,16 +58,18 @@ Use:
 
 ## Как использовать
 
-1) Клацнуть на ярлык dwScript.exe. Откроется форма.
+1.Использование графической оболочки(beta)
+> Клацнуть на ярлык dwScript.exe. Откроется форма.
 
-2) Открыть папку с 'DwScript' в терминале(или в cmd)
+2) Использование в терминале 
+> Открыть папку с 'DwScript' в терминале(или в cmd)
 
-  - python DwScript.py --help | Просматреть помощь
-  - python DwScript.py 2ch.hk/b/6543346/3423463.html | Скачать все файлы
-  - python DwScript.py 2ch.hk/b/6543346/3423463.html -w | Скачать только вебемки
+  - python DwScript.py --help | Просмотреть помощь
+  - python DwScript.py 2ch.hk/b/6543346/3423463.html | Скачать все файлы из треда 
+  - python DwScript.py 2ch.hk/b/6543346/3423463.html -w | Скачать только вебемки из треда
   - python DwSCript.py -b b | Скачать доску со всеми тредами (в данном примере 'б')
 
-> Все файлы буду скачиваться в папкe dist/DwScript/*номер треда*
+> Все файлы буду скачиваться в папкe "Путь к скрипту"/*номер треда*
 
 ## Требования
 
@@ -83,8 +77,6 @@ Use:
 
   python2.7 и версии ниже.
 
-Для запуска через ярлык:
-  ничего.
 
 ## Установка
 Для запуска из командной строки: 
@@ -119,7 +111,10 @@ Use:
 
 ---
 #### Authors
-*Dov* -- script
-*EnCrud* -- gui and .exe version on python 3.x
+*Dov*
 
 [*omgee*] (https://github.com/omgee/) :+1:
+
+[*0xd0a2d18b20d183d0bcd180d0b5d188d18c*] (https://github.com/0xd0a2d18b20d183d0bcd180d0b5d188d18c) :+1:
+
+[*EnCrud*] :+1:
