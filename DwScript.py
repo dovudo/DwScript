@@ -33,16 +33,16 @@ def get_all_threads(board):
     Using json
     """
     try:
-    	catalog = opener.open("https://2ch.hk/" + board + "/catalog.json").read()
-    	threads = json.loads(catalog)
-    	threads_url = []
-    	for num in threads["threads"]:
-        	threads_url.append("https://2ch.hk/" + board + "/res/" + num["num"] + ".html")
-    	return threads_url
+        catalog = opener.open("https://2ch.hk/" + board + "/catalog.json").read()
+        threads = json.loads(catalog)
+        threads_url = []
+        for num in threads["threads"]:
+            threads_url.append("https://2ch.hk/" + board + "/res/" + num["num"] + ".html")
+        return threads_url
 
     except urllib.request.HTTPError:
-    	print ("Board not found \n Check it")
-    	exit()
+        print ("Board not found \n Check it")
+        exit()
 
 def download_board(board):
     '''
@@ -67,7 +67,7 @@ def download_file(url, dirname):
         os.remove(dirname + "/" + filename)
         print("aborted by site")
         download_file(url,dirname)
-       
+
 def get_pattern():
     '''
     Filter input arguments
@@ -103,8 +103,8 @@ def download_thread(url):
         thread.read().decode('utf-8'))))
 
         if not os.path.isdir(folder_name): # Check folder existance
-        	os.makedirs(folder_name)
-        	print ("Create folder " + folder_name)
+            os.makedirs(folder_name)
+            print ("Create folder " + folder_name)
         else:
             print ("Searching")
 
@@ -119,7 +119,7 @@ def download_thread(url):
         # Realod thread after 30 seconds (if no board mode)
         if not args.board_name:
             print ("I'm sleeping at 30 sec \nPress Ctrl + C, to exit")
-            time.sleep(30)           
+            time.sleep(30)
             download_thread(url)
 
     except urllib.request.URLError:
@@ -136,9 +136,9 @@ def download_thread(url):
 # Entrypoint args
 def __ARGS__():
     ar = argparse.ArgumentParser(
-    	description=" Easy-to-Use downloader webm's, mp4, pictures or gifs from 2ch.hk",
-    	usage="python DwScript.py [link] [args]",
-    	epilog="Files will downloaded in dir with script")
+        description=" Easy-to-Use downloader webm's, mp4, pictures or gifs from 2ch.hk",
+        usage="python DwScript.py [link] [args]",
+        epilog="Files will downloaded in dir with script")
     ar.add_argument('link',nargs="?", metavar='link',type=str,help="Thread link")
     ar.add_argument("-w","--webm",action="store_true",dest='webm_switch',help="Only webms and mp4")
     ar.add_argument("-p","--picture",action="store_true",dest='picture_switch',help="Only pictures")
@@ -155,8 +155,8 @@ def __ARGS__():
     board = args.board_name
     #If no arguments print help
     if not board and not link:
-    	ar.print_help()
-    	exit()
+        ar.print_help()
+        exit()
 
     if board:
         download_board(board)
