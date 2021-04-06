@@ -85,12 +85,15 @@ def get_pattern():
         pattern = "(?:webm|mp4|png|jpg|gif)"
     return pattern
 
-def download_thread(url):
+def download_thread(url, file):
     '''
     Create folder and download threads
     '''
     try:
-        thread = opener.open(url)
+        if file:
+            thread = open(file, "r")
+        else:
+            thread = opener.open(url)
         '''
         Make folder name
         Spit boards
@@ -99,8 +102,12 @@ def download_thread(url):
         board = url.split("/")[3]
         pattern = get_pattern()
 
-        thread_media = list(set(re.findall(r'href="(/' + board + '/src/[^"]*' + pattern + ")", \
-        thread.read().decode('utf-8'))))
+        if file:
+            thread_media = list(set(re.findall(r'href="(/' + board + '/src/[^"]*' + pattern + ")", \
+            thread.read())))
+        else:
+            thread_media = list(set(re.findall(r'href="(/' + board + '/src/[^"]*' + pattern + ")", \
+            thread.read().decode('utf-8'))))
 
         if not os.path.isdir(folder_name): # Check folder existance
             os.makedirs(folder_name)
@@ -145,6 +152,7 @@ def __ARGS__():
     ar.add_argument("-g","--gif",action="store_true",dest='gif_switch',help="Only gifs")
     ar.add_argument('-b','--board',metavar="board",dest='board_name',help='Download all threads from board \n \
     Example DwScript -b e')
+    ar.add_argument('-f','--file',metavar="file",dest="file_name",help='Source code file')
     ar.add_argument('--cookie',metavar='Cookie',dest='Cookie',default=Cookie,help='set Cookie, \
     if dont work hidden boards')
 
@@ -153,6 +161,7 @@ def __ARGS__():
     options = vars(args)
     link = options['link']
     board = args.board_name
+    file = args.file_name
     #If no arguments print help
     if not board and not link:
         ar.print_help()
@@ -161,7 +170,7 @@ def __ARGS__():
     if board:
         download_board(board)
     else:
-        download_thread(link)
+        download_thread(link, file)
 
 if __name__ == '__main__':
    __ARGS__()
